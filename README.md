@@ -20,11 +20,15 @@
 
 - ⚡ **Instant Response Controls** - Zero-latency shooting with hold-to-fire mechanics
 - 👾 **4 Enemy Types** - Basic, Fast, Tank, and Chaser enemies with unique behaviors
-- 💎 **Power-Up System** - Weapon upgrades, health packs, and speed boosts
+- 💎 **Power-Up System** - Weapon upgrades, health packs, speed boosts, spread, laser, and homing missiles
 - ✨ **Particle Effects** - Beautiful explosions and visual feedback
 - 🌟 **Dynamic Background** - Animated starfield with drifting nebulae
 - 📊 **Score Tracking** - Real-time scoring with confetti celebrations at milestones
 - 🔫 **Weapon Progression** - Unlock multi-shot capabilities as you level up
+- 👑 **Boss Battles** - Epic battles with unique attack patterns (barrage, spiral, rush)
+- 🎵 **Sound Effects & BGM** - Immersive audio experience
+- 🏆 **High Score & Leaderboard** - Save and compare your best scores
+- 📱 **Mobile Support** - Touch controls with virtual joystick and shoot button
 
 ---
 
@@ -158,12 +162,24 @@ npm run lint
 
 ## 🔮 Future Roadmap
 
-- [ ] Boss battles with unique patterns
-- [ ] Sound effects and background music
-- [ ] High score persistence (localStorage)
-- [ ] Mobile touch controls
-- [ ] Additional weapon types (spread, laser, homing)
-- [ ] Leaderboard system
+- [x] Boss battles with unique patterns
+- [x] Sound effects and background music
+- [x] High score persistence (localStorage)
+- [x] Mobile touch controls
+- [x] Additional weapon types (spread, laser, homing)
+- [x] Leaderboard system
+
+---
+
+## 📝 Update History
+
+- **2025/03/06** - Minimax-M2.5 updates:
+  - Added boss battles with unique attack patterns (barrage, spiral, rush)
+  - Implemented sound effects and background music
+  - Added high score persistence using localStorage
+  - Added mobile touch controls with virtual joystick and shoot button
+  - Added new weapon types: spread, laser, homing missiles
+  - Implemented leaderboard system for top 10 scores
 
 ---
 

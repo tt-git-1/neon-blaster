@@ -151,35 +151,181 @@ class AudioManager {
     osc.stop(this.context.currentTime + 0.2);
   }
 
-  startBGM() {
+startBGM() {
     if (!this.context || this.bgmPlaying) return;
     this.bgmPlaying = true;
     this.bgmGainNode = this.context.createGain();
-    this.bgmGainNode.gain.value = 0.15;
+    this.bgmGainNode.gain.value = 0.03;
     this.bgmGainNode.connect(this.context.destination);
     
-    const frequencies = [110, 146.83, 164.81, 220];
-    let noteIndex = 0;
-
-    const playNote = () => {
+    const playKick = () => {
       if (!this.bgmPlaying || !this.context) return;
+      
       const osc = this.context.createOscillator();
       const gain = this.context.createGain();
+      
       osc.connect(gain);
       gain.connect(this.bgmGainNode!);
       osc.type = "sine";
-      osc.frequency.value = frequencies[noteIndex];
-      noteIndex = (noteIndex + 1) % frequencies.length;
+      osc.frequency.setValueAtTime(150, this.context.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(50, this.context.currentTime + 0.1);
       
       const now = this.context.currentTime;
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      gain.gain.setValueAtTime(0.5, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
       osc.start(now);
-      osc.stop(now + 0.4);
+      osc.stop(now + 0.15);
 
-      setTimeout(playNote, 400);
+      if (this.bgmPlaying) {
+        setTimeout(playKick, 400);
+      }
     };
-    playNote();
+
+    const playSnare = () => {
+      if (!this.bgmPlaying || !this.context) return;
+      
+      for (let i = 0; i < 2; i++) {
+        setTimeout(() => {
+          if (!this.bgmPlaying || !this.context) return;
+          
+          const osc = this.context.createOscillator();
+          const gain = this.context.createGain();
+          
+          osc.connect(gain);
+          gain.connect(this.bgmGainNode!);
+          osc.type = "triangle";
+          osc.frequency.value = 200 + Math.random() * 100;
+          
+          const now = this.context.currentTime;
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        }, i * 200);
+      }
+
+      if (this.bgmPlaying) {
+        setTimeout(playSnare, 400);
+      }
+    };
+
+    const playMelody = () => {
+      if (!this.bgmPlaying || !this.context) return;
+      
+      const melody1 = [
+        { freq: 392, dur: 0.12 }, { freq: 523, dur: 0.12 }, { freq: 659, dur: 0.12 },
+        { freq: 784, dur: 0.24 }, { freq: 659, dur: 0.12 }, { freq: 523, dur: 0.12 },
+      ];
+      let melodyIndex = 0;
+
+      const playNote = () => {
+        if (!this.bgmPlaying || !this.context) return;
+        
+        const note = melody1[melodyIndex];
+        const osc = this.context.createOscillator();
+        const gain = this.context.createGain();
+        
+        osc.connect(gain);
+        gain.connect(this.bgmGainNode!);
+        
+        osc.type = "square";
+        osc.frequency.value = note.freq;
+        
+        const now = this.context.currentTime;
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + note.dur);
+        osc.start(now);
+        osc.stop(now + note.dur);
+
+        melodyIndex = (melodyIndex + 1) % melody1.length;
+        
+        if (this.bgmPlaying) {
+          setTimeout(playNote, 120);
+        }
+      };
+      
+      playNote();
+    };
+
+    const playHiMelody = () => {
+      if (!this.bgmPlaying || !this.context) return;
+      
+      const hiNotes = [1047, 1319, 1568, 1760];
+      let hiIndex = Math.floor(Math.random() * 4);
+
+      const playNote = () => {
+        if (!this.bgmPlaying || !this.context) return;
+        
+        const osc = this.context.createOscillator();
+        const gain = this.context.createGain();
+        
+        osc.connect(gain);
+        gain.connect(this.bgmGainNode!);
+        
+        osc.type = "square";
+        osc.frequency.value = hiNotes[hiIndex];
+        
+        const now = this.context.currentTime;
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.12);
+
+        hiIndex = (hiIndex + 1) % hiNotes.length;
+        
+        if (this.bgmPlaying) {
+          setTimeout(() => playNote(), Math.random() * 200 + 100);
+        }
+      };
+      
+      playNote();
+    };
+
+    const playPowerUp = () => {
+      if (!this.bgmPlaying || !this.context) return;
+      
+      const notes = [261, 311, 349, 392, 523, 622, 784, 1047];
+      let index = 0;
+
+      const playNote = () => {
+        if (!this.bgmPlaying || !this.context) return;
+        
+        const osc = this.context.createOscillator();
+        const gain = this.context.createGain();
+        
+        osc.connect(gain);
+        gain.connect(this.bgmGainNode!);
+        
+        osc.type = "square";
+        osc.frequency.value = notes[index];
+        
+        const now = this.context.currentTime;
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.18);
+
+        index++;
+        
+        if (index < notes.length && this.bgmPlaying) {
+          setTimeout(playNote, 80);
+        }
+      };
+      
+      playNote();
+    };
+
+    const startPowerUpLoop = () => {
+      if (!this.bgmPlaying) return;
+      playPowerUp();
+      setTimeout(startPowerUpLoop, 3000 + Math.random() * 2000);
+    };
+
+    playKick();
+    playSnare();
+    playMelody();
+    playHiMelody();
+    startPowerUpLoop();
   }
 
   stopBGM() {
